@@ -17,18 +17,24 @@ external_client= AsyncOpenAI(
 )
 
 external_model= OpenAIChatCompletionsModel(
-    model="opengvlab/internvl3-2b:free",
+    model="deepseek/deepseek-r1-0528-qwen3-8b:free",
     openai_client=external_client,
 )
 
 assistant_agent = Agent(
     name="Assistant",
     instructions="You are a helpful assistant.",
+)
+
+run = RunConfig(
     model=external_model,
+    model_provider=external_client,
 )
 
 result = Runner.run_sync(
     assistant_agent,
-    input="what were you last updated?",
+    input="hi",
+    run_config=run,
+
 )
 print(result.final_output)

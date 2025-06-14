@@ -29,7 +29,6 @@ agent1 = Agent(
     name="Assistant",
     instructions="You are a helpful assistant.",
     # model=external_model,
-    
 )
 
 result = Runner.run_sync(
