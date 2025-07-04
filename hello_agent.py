@@ -25,9 +25,16 @@ run = RunConfig(
     model_provider=external_client,
 )
 
+
+def greeting (name:str) ->str:
+    """greet the user by name"""
+    return f"asalam o Alaikum! {name}!"
+
+    
+
 agent1 = Agent(
-    name="Assistant",
-    instructions="You are a helpful assistant.",
+    name="5"
+
     # model=external_model,
 )
 

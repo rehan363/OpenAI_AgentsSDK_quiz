@@ -5,8 +5,8 @@ set_tracing_disabled(True)
 
 class WeatherAnswer(BaseModel):
     location: str
-    temperature_c: float
-    summart: str
+    temperature_c: None
+    summary: str
 
 agent1 = Agent(
     name="WeatherAgent",

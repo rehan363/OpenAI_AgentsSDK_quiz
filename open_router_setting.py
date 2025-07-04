@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
-from agents import set_tracing_disabled, AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig, Agent, Runner
+from agents import set_tracing_disabled, AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig, Agent, Runner, set_default_openai_client
 import os
 
 load_dotenv()
+
 
 set_tracing_disabled(True)
 open_router_api_key = os.getenv("OPEN_ROUTER_API_KEY")
