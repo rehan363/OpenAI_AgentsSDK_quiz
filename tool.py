@@ -19,7 +19,7 @@ def greet(params: GreetingInput) ->str:
 #     print("greet function called with name:", name)
 #     return name
 
-@function_tool
+@function_tool(strict_mode=True)
 def add_numbers(a: int, b: int) -> int:
     """Adds two numbers."""
     print("addition tool called")
@@ -49,3 +49,4 @@ result = Runner.run_sync(
 )
 
 print(result.final_output)
+

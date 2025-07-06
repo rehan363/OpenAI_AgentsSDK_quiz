@@ -38,10 +38,10 @@ agent1 = Agent(
     # model=external_model,
 )
 
-result = Runner.run_sync(
-    agent1,
-    input="Hello",
-    run_config=run,
-    context=None,)
+# result = Runner.run_sync(
+#     agent1,
+#     input="",
+#     run_config=run,
+#     context=None,)
 
-print(result.final_output)
+# print(result.final_output)
