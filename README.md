@@ -1,1 +1,1 @@
-I am Learning Pydentic 
+I am Learning openai agents sdk
