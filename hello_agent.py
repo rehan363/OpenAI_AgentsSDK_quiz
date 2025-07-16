@@ -17,7 +17,7 @@ external_client = AsyncOpenAI(
 )
 
 external_model = OpenAIChatCompletionsModel(
-    model="gemini-1.5-flash",
+    model="gemini-2.0-flash",
     openai_client=external_client,
 )
 run = RunConfig(
@@ -32,15 +32,15 @@ def greeting (name:str) ->str:
 
     
 
-agent1 = Agent(
-    name="5"
-
-    # model=external_model,
-)
+# agent1 = Agent(
+#     name="assistant",
+#     instructions="You are a helpful assistant. Use the provided tools to answer questions.",
+#     model=external_model,
+# )
 
 # result = Runner.run_sync(
 #     agent1,
-#     input="",
+#     input="hi",
 #     run_config=run,
 #     context=None,)
 
