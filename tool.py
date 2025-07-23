@@ -51,24 +51,37 @@ from pydantic import BaseModel
 # print(result.final_output)
 
 # ===============x===========================x========================x==========
-@function_tool
+
+def error_function(name: str, error=None) -> str:
+    return f"Error while processing the request for {name}. Please try again later."
+
+
+@function_tool(failure_error_function=error_function)
 def greeting_user(name: str) -> str:
-    """analyse the user name from input and return the greeting message"""
-    return f"hello {name}"
+     if name =="ali":
+          raise ValueError("Name 'ali' is not allowed.")
+     else:
+          return f"Hello {name}, welcome to our service!"
+     """analyse the user name from input if name not provide route to error function"""
+
+ 
 
 
 pa_agent = Agent(
     name="Personal Assistant",
     instructions="You are a personal assistant. Use the provided tools to answer questions.",
     tools=[greeting_user],
-    model_settings=ModelSettings(parallel_tool_calls=False),
-    tool_use_behavior="stop_on_first_tool")
+    # model_settings=ModelSettings(parallel_tool_calls=False),
+    model_settings=ModelSettings(tool_choice="auto",)
+    # tool_use_behavior="stop_on_first_tool")
+)
 
 result = Runner.run_sync(
     pa_agent,
-    input= "who are you? My name is Ali.",
+    input= "hi ali here ",
     run_config=run,
     
 )
 
 print(result.final_output)
+
