@@ -22,6 +22,7 @@ maths_agent = Agent(
     name="maths_agent",
     instructions="You are a maths assistant.take two numbers a, b from user and return results by using tools.",
     tools=[add_numbers, multiply_sum],
+    reset_tool_choice=True,
 
 )
 async def main():
