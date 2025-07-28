@@ -1,6 +1,17 @@
 from hello_agent import run
 from agents import Agent, Runner, set_tracing_disabled, handoff, RunContextWrapper
 from pydantic import BaseModel
+from typing import Literal
+from dataclasses import dataclass
+
+class GymUser(BaseModel):
+    fitness_goal: str
+    dietary_preferences: str
+
+@dataclass
+class PlanFeedback:
+    feedback: str
+    score: Literal["pass", "needs_improvement", "fail"]
 
 gym_agent = Agent(
     name="GymAgent",
