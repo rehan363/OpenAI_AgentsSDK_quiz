@@ -1,8 +1,13 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from hello_agent import run
-from agents import Agent, Runner, set_tracing_disabled, handoff, RunContextWrapper, TResponseInputItems, ItemHelpers
+
+from agents import Agent, Runner, set_tracing_disabled, handoff, RunContextWrapper, TResponseInputItem, ItemHelpers
 from pydantic import BaseModel  
 from typing import Literal
 from dataclasses import dataclass
+set_tracing_disabled(False)
 
 #creating a class for user input
 class GymUser(BaseModel):
@@ -30,7 +35,7 @@ evaluator = Agent(
 
 async def main() ->None:
     msg = input("Enter your fitness goal (e.g., weight loss, muscle gain, etc.): ")
-    input_items: list[TResponseInputItems] = [{"content": msg, "role": "user"}]
+    input_items: list[TResponseInputItem] = [{"content": msg, "role": "user"}]
     latest_plan: str | None = None
 
     #we will run the entire workflow in a single trace
@@ -45,7 +50,7 @@ async def main() ->None:
         latest_plan = ItemHelpers.text_message_outputs(workout_and_diet_plan_result.new_items)
         print("diet plan generated....")
 
-        evaluator_result = await Runner.run(evaluator, input_items)
+        evaluator_result = await Runner.run(evaluator, input_items, run_config=run)
         result: PlanFeedback = evaluator_result.final_output
         print(f"evaluator plan: {result.plan}")
 
@@ -61,6 +66,6 @@ async def main() ->None:
 
 
 if __name__ == "__main__":
-    set_tracing_disabled(True)
+    
     import asyncio
     asyncio.run(main())
