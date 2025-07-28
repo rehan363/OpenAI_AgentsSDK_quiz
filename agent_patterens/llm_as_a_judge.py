@@ -1,6 +1,6 @@
 from hello_agent import run
-from agents import Agent, Runner, set_tracing_disabled, handoff, RunContextWrapper, TResponseInputItems
-from pydantic import BaseModel
+from agents import Agent, Runner, set_tracing_disabled, handoff, RunContextWrapper, TResponseInputItems, ItemHelpers
+from pydantic import BaseModel  
 from typing import Literal
 from dataclasses import dataclass
 
@@ -39,4 +39,28 @@ async def main() ->None:
         workout_and_diet_plan_result = await Runner.run(
             work_out_and_diet_plan_generator,
             input=input_items,
+            run_config=run,
         )
+        input_items = workout_and_diet_plan_result.to_input_list()
+        latest_plan = ItemHelpers.text_message_outputs(workout_and_diet_plan_result.new_items)
+        print("diet plan generated....")
+
+        evaluator_result = await Runner.run(evaluator, input_items)
+        result: PlanFeedback = evaluator_result.final_output
+        print(f"evaluator plan: {result.plan}")
+
+        if result.plan == "pass":
+            print("Congratulations! Workout and diet plan has been approved by evaluator.")
+            print(f"Feedback: {result.feedback}")
+            break  
+        print("Re-evaluating the plan with feedback....")
+
+        input_items.append({"content": f"Feedback: {result.feedback}", "role": "user"})
+
+    print(f"Final Workout and Diet Plan: {latest_plan}")
+
+
+if __name__ == "__main__":
+    set_tracing_disabled(True)
+    import asyncio
+    asyncio.run(main())
